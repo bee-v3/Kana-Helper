@@ -12,6 +12,6 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app w
 
 ## Licenses
 
-AnimCJK project (https://github.com/parsimonhi/animCJK) (Lesser GPL) ofr the SVG graphics files located in /src/assets/svg-files/
+AnimCJK project (https://github.com/parsimonhi/animCJK) (Lesser GPL) for the SVG graphics files located in /src/assets/svg-files/
 
 svgpath (https://github.com/fontello/svgpath) (MIT)
