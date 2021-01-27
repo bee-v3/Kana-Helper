@@ -1,7 +1,7 @@
 import { Component, ElementRef, AfterViewInit, ViewChild } from '@angular/core';
 import { KanaSelectorService } from '../kana-selector/kana-selector.service';
 import { KanaStroke } from '../kana-stroke-interface/kana-stroke-interface';
-import { fromEvent } from 'rxjs';
+import { fromEvent, merge } from 'rxjs';
 import { switchMap, takeUntil, pairwise, finalize } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 
@@ -32,7 +32,7 @@ export class CanvasComponent implements AfterViewInit {
     canvasEl.height = environment.canvaswidth;
 
     this.cx = canvasEl.getContext('2d');
-    this.cx.lineWidth = 10;
+    this.cx.lineWidth = 7;
     this.cx.lineCap = 'round';
     this.cx.strokeStyle = '#000';
 
@@ -56,16 +56,22 @@ export class CanvasComponent implements AfterViewInit {
       }
     });
 
+    const downEvent$ = merge(fromEvent(canvasEl, 'mousedown'), fromEvent(canvasEl, 'touchstart'));
+    const upEvents$ = merge(fromEvent(canvasEl, 'mouseup'), fromEvent(canvasEl, 'touchend'));
+    const moveEvents$ = merge(fromEvent(canvasEl, 'mousemove'), fromEvent(canvasEl, 'touchmove'));
+    const leaveEvents$ = merge(fromEvent(canvasEl, 'mouseleave'), fromEvent(canvasEl, 'touchleave'));
+
+
     // subscribe to mousedown events on the canvas and draw lines
     const starts =
-    fromEvent(canvasEl, 'mousedown')
+    downEvent$
       .pipe(
         switchMap((e) => {
           this.userpath = new Path2D();   // Clear user drawn path upon mousedown event
-
-          return fromEvent(canvasEl, 'mousemove')
+          e.preventDefault();
+          return moveEvents$
             .pipe(
-              takeUntil(fromEvent(canvasEl, 'mouseup')), takeUntil(fromEvent(canvasEl, 'mouseleave')),
+              takeUntil(upEvents$), takeUntil(leaveEvents$),
               pairwise(),
 
               // occurs whenever user finishes drawing line on canvas (when drawing subscription completes)
@@ -87,19 +93,37 @@ export class CanvasComponent implements AfterViewInit {
             );
         })
       )
-      .subscribe((res: [MouseEvent, MouseEvent]) => {
+      .subscribe((res: [MouseEvent | TouchEvent, MouseEvent | TouchEvent] ) => {
+
         const rect = canvasEl.getBoundingClientRect();
-        const prevPos = {
-          x: res[0].clientX - rect.left,
-          y: res[0].clientY - rect.top
-        };
 
-        const currentPos = {
-          x: res[1].clientX - rect.left,
-          y: res[1].clientY - rect.top
-        };
+        if ((res[0] instanceof TouchEvent && res[1] instanceof TouchEvent)){
+          const prevPos = {
+            x: res[0].touches[0].clientX - rect.left,
+            y: res[0].touches[0].clientY - rect.top
+          };
 
-        this.drawMouseStroke(prevPos, currentPos);
+          const currentPos = {
+            x: res[1].touches[0].clientX - rect.left,
+            y: res[1].touches[0].clientY - rect.top
+          };
+          this.drawMouseStroke(prevPos, currentPos);
+        }
+        else if (res[0] instanceof MouseEvent && res[1] instanceof MouseEvent){
+          const prevPos = {
+            x: res[0].clientX - rect.left,
+            y: res[0].clientY - rect.top
+          };
+
+          const currentPos = {
+            x: res[1].clientX - rect.left,
+            y: res[1].clientY - rect.top
+          };
+          this.drawMouseStroke(prevPos, currentPos);
+        }
+        else{
+          return;
+        }
       });
   }
 
@@ -216,7 +240,7 @@ export class CanvasComponent implements AfterViewInit {
       }
     }
     // Determine if user completed the stroke well enough to pass
-    return Math.round((outsidelines / upixelcount) * 100) < 30 && Math.round((unfilledpixels / kpixelcount) * 100) < 60;
+    return Math.round((outsidelines / upixelcount) * 100) < environment.outsidelines && Math.round((unfilledpixels / kpixelcount) * 100) < environment.unfilledpixels;
   }
 
   public getCompleted() {

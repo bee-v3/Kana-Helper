@@ -28,7 +28,7 @@ export class KanaSelectorService {
    * @param k Kana object
    */
   newKana(k: Kana){
-    if (k === undefined || k=== null){
+    if (k === undefined || k === null){
       this.currentKana.next(null);
       return;
     } else if (Object.values(k).some(e => e === undefined)) {
