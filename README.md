@@ -4,7 +4,7 @@ A prototype angular app used to assist in learning to write Hiragana and Katakan
 
 ## Deploying
 
-Run `npm build` to build the project. The build artifacts will be stored in the `dist/` directory. Afterwards run `npm start` and navigate to `http://localhost:4200/`.
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Afterwards run `npm start` and navigate to `http://localhost:4200/`.
 
 ## Development server
 

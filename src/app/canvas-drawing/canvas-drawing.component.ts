@@ -32,7 +32,7 @@ export class CanvasComponent implements AfterViewInit {
     canvasEl.height = environment.canvaswidth;
 
     this.cx = canvasEl.getContext('2d');
-    this.cx.lineWidth = 7;
+    this.cx.lineWidth = 11;
     this.cx.lineCap = 'round';
     this.cx.strokeStyle = '#000';
 
@@ -97,7 +97,7 @@ export class CanvasComponent implements AfterViewInit {
 
         const rect = canvasEl.getBoundingClientRect();
 
-        if ((res[0] instanceof TouchEvent && res[1] instanceof TouchEvent)){
+        if (window.TouchEvent && res[0] instanceof TouchEvent && res[1] instanceof TouchEvent){
           const prevPos = {
             x: res[0].touches[0].clientX - rect.left,
             y: res[0].touches[0].clientY - rect.top
@@ -159,10 +159,10 @@ export class CanvasComponent implements AfterViewInit {
       if (element.svgstep < this.step){
         completedpaths.addPath(element.strokepath);
       }
-      if (element.svgstep === this.step){
+      else if (element.svgstep === this.step){
         currentpaths.addPath(element.strokepath);
       }
-      if (element.svgstep > this.step){
+      else if (element.svgstep > this.step){
         incompletepaths.addPath(element.strokepath);
       }
 
@@ -210,6 +210,7 @@ export class CanvasComponent implements AfterViewInit {
 
     // Collect pixel counts of user-drawn path and path of the current stroke
     ux.stroke(drawnpath);
+    kx.stroke(currentpath);
     kx.fill(currentpath);
 
     return await this.canvasPixelCount(ux, kx, environment.canvaswidth, environment.canvasheight);

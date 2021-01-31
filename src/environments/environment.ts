@@ -7,6 +7,6 @@ export const environment = {
   canvaswidth: 300,
   canvasheight: 300,
   svgfiles: '../../assets/svg-files/',
-  outsidelines: 30,
-  unfilledpixels: 65
+  outsidelines: 50,
+  unfilledpixels: 70
 };
