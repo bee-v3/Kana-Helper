@@ -211,5 +211,10 @@
       height: 16px;
       width: 100%;
       margin:auto;
-      }
+    }
+    
+    .small-menu {
+      width: 70vw;
+      margin: auto;
+    }  
   }
