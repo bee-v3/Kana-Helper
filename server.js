@@ -30,4 +30,4 @@ process.on('exit', exitHandler.bind({cleanup:true, exit:true}, 0));
 process.on('SIGINT', exitHandler.bind({exit:true}, 1));
 
 // Uncaught exception exit
-process.on('uncaughtException', exitHandler.bind(null, 1));
+process.on('uncaughtException', exitHandler.bind({exit:true}, 1));
