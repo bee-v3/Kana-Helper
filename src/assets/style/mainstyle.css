@@ -207,6 +207,7 @@
       margin: 1px;
       padding: 2px;
     }
+
     .card:not(.highlight-card):not(.card-menu) {
       height: 16px;
       width: 100%;
@@ -218,3 +219,4 @@
       margin: auto;
     }  
   }
+  

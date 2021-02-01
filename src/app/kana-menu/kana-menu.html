@@ -1,22 +1,30 @@
+  <div>
+    <h3 style="text-align: center;">
+    Directions:<br>
+    Select a writing system, then select a character.<br>
+    Draw over the red strokes with your finger or mouse<br> 
+    Use as a tool to help memorize correct stroke order.<br>
+    </h3>
+  </div>
   <div class="card highlight-card">
     <h2>Select a Writing System</h2>
   </div>
 
   <div class="card-container">
     <a class="card" (click)="showHiragana()">
-      <svg class="material-icons" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>								
+      <svg class="material-icons" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
       <h3>Hiragana</h3>
-      <svg class="material-icons" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>    
+      <svg class="material-icons" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
     </a>
 
     <a class="card" (click)="showKatakana()">
-      <svg class="material-icons" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>								
+      <svg class="material-icons" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
       <h3>Katakana</h3>
       <svg class="material-icons" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
     </a>
   </div>
   <div><h3 style="text-align: center;">Choose a character from the list below to practice:</h3></div>
-    <!-- Next Steps -->  
+    <!-- Next Steps -->
   <div class="card-container small-menu" *ngIf="menutype == 1">
     <div *ngFor="let hglyph of hiragana">
       <div class="card card-menu" (click)="selectKana(hglyph)">{{hglyph.jpn}}</div>
@@ -25,7 +33,7 @@
 
   <div class="card-container small-menu"  *ngIf="menutype == 2">
     <div *ngFor="let kglyph of katakana">
-      <div class="card card-menu" (click)="selectKana(hglyph)">{{kglyph.jpn}}</div>
+      <div class="card card-menu" (click)="selectKana(kglyph)">{{kglyph.jpn}}</div>
     </div>
   </div>
 

@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  canvaswidth: 300,
-  canvasheight: 300,
+  canvaswidth: 340,
+  canvasheight: 340,
   svgfiles: '../../assets/svg-files/',
   outsidelines: 50,
   unfilledpixels: 70

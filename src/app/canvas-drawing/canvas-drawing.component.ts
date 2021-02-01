@@ -32,7 +32,7 @@ export class CanvasComponent implements AfterViewInit {
     canvasEl.height = environment.canvaswidth;
 
     this.cx = canvasEl.getContext('2d');
-    this.cx.lineWidth = 11;
+    this.cx.lineWidth = 12;
     this.cx.lineCap = 'round';
     this.cx.strokeStyle = '#000';
 
@@ -127,8 +127,9 @@ export class CanvasComponent implements AfterViewInit {
       });
   }
 
-  /*
-   *
+  /*  Draws a stroke on the canvas connecting the user's previous and current x,y coordinates
+   *  @param prevPos and object with an x: number and y: number member representing previous coordinates
+   *  @param currentPos and object with an x: number and y: number member representing current coordinates
    */
   private drawMouseStroke(prevPos: { x: number, y: number }, currentPos: { x: number, y: number }) {
     if (!this.cx) { return; }
@@ -148,6 +149,9 @@ export class CanvasComponent implements AfterViewInit {
     }
   }
 
+  /*  Draws the currently selected kana to the canvas
+   *  @param k an array comprised of objects of type KanaStroke that define the currently selected kana
+   */
   private async drawKana(k: [KanaStroke]){
     if (this.selectedKana === null || !this.cx){return; }
 
@@ -179,6 +183,10 @@ export class CanvasComponent implements AfterViewInit {
     });
   }
 
+  /*  Draw's a stroke on the canvas connecting the user's previous and current x,y coordinates
+   *  @param drawnpath a Path2D element that corresponds to the touch or mouse stroke the user made on the canvas
+   *  @param k an array comprised of objects of type KanaStroke that define the currently selected kana
+   */
   private async scoreKana(drawnpath: Path2D, k: [KanaStroke]){
     if (!this.cx){ return; }
     const currentpath = new Path2D();
@@ -216,7 +224,12 @@ export class CanvasComponent implements AfterViewInit {
     return await this.canvasPixelCount(ux, kx, environment.canvaswidth, environment.canvasheight);
  }
 
-  /* Compares two CanvasRenderingContext2D to determine overlap and returns a boolean based on define values
+  /* Compares two CanvasRenderingContext2D to determine overlap and returns a boolean based on whether
+   * overlap falls under a set threshold
+   * @param u CanvasRenderingContext2D containing strokes drawn by the user
+   * @param k CanvasRenderingContext2D containing the current stroke the user is shown to draw
+   * @param width width of the visible canvas element
+   * @param height height of the visible canvas element
    */
   private async canvasPixelCount(u: CanvasRenderingContext2D, k: CanvasRenderingContext2D, width: number, height: number){
     if (!u || !k || !width || !height){

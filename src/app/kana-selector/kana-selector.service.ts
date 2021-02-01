@@ -66,9 +66,9 @@ export class KanaSelectorService {
             const step = (animationlist.length > 0) ? parseInt((animationlist[i].getAttribute('style').replace(/[-sS;d:]+/g, '')), 10) : i + 1;
             svgdrawingpaths.push({
               svgstep: step, strokepath: new Path2D(svgPath(pathlist[i].getAttribute('d'))
-                .scale(environment.canvasheight / viewboxsize).toString()),
+                .scale(environment.canvasheight / viewboxsize).round(2).toString()),
               animationpath: (animationlist.length > 0) ? new Path2D(svgPath(animationlist[i].getAttribute('d'))
-                .scale(environment.canvasheight / viewboxsize).toString()) : new Path2D()
+                .scale(environment.canvasheight / viewboxsize).round(2).toString()) : new Path2D()
             });
           }
 
@@ -77,7 +77,7 @@ export class KanaSelectorService {
         .then(
           s => {this.currentKana.next(s); }
         )
-        .catch(error => {console.log('Error: kana not found.');});
+        .catch(error => {console.log('Error: kana not found.'); });
   }
 
   ngOnDestroy(): void {
